@@ -10,8 +10,9 @@ RUN go mod init gomandel && \
     go build . 
 
 FROM alpine
+WORKDIR /app 
 COPY --from=build /opt/app-root/src/gomandel .
 
 EXPOSE 8080
-ENTRYPOINT ["./gomandel"]
+ENTRYPOINT ["/app/gomandel"]
 CMD ["--server", "--xres=1024", "--yres=1024" ]
