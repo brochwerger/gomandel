@@ -9,7 +9,7 @@ RUN go mod init gomandel && \
     go mod tidy -e && \
     go build . 
 
-FROM ubi8/ubi-micro
+FROM alpine
 COPY --from=build /opt/app-root/src/gomandel .
 
 EXPOSE 8080
