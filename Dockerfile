@@ -1,5 +1,7 @@
 
-FROM ubi8/go-toolset:1.18 as build
+FROM golang:1.19
+
+WORKDIR /app 
 
 ### Copy source code for building the application
 COPY ./mandel.go .
@@ -8,11 +10,7 @@ COPY ./mandel.go .
 RUN go mod init gomandel && \
     go mod tidy -e && \
     go build . 
-
-FROM alpine
-WORKDIR /app 
-COPY --from=build /opt/app-root/src/gomandel .
-
+#RUN CGO_ENABLED=0 GOOS=linux go build
 EXPOSE 8080
 ENTRYPOINT ["/app/gomandel"]
 CMD ["--server", "--xres=1024", "--yres=1024" ]
